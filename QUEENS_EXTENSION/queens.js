@@ -22,21 +22,11 @@ function solveIt(){
     //let add_to_map=(idx,value)=> !grid_clr.has(value)?grid_clr.set(value,[idx]):grid_clr.get(value).push(idx);
     Array.from(content).forEach((val,idx)=>grid_clr.set(idx,val.classList[1].slice(-1)));
 
-    console.log([...grid_clr]);
+    //console.log([...grid_clr]);
 
-    let get_row=(idx)=>{
-        let row_start_index=Math.floor(idx/size)*size;
-        return Array.from({length:size},(_,i)=>board[row_start_index+i]);
-    };
-
-    let get_col=(idx)=>{
-        let col_start_index=idx%size;
-        return Array.from({length:size},(_,i)=>board[col_start_index+i*size]);
-    };
     let row=Array(size).fill(false);
     let col=Array(size).fill(false);
     let clr=new Map();
-    
 
     Array.from(board).forEach((val,idx)=>{
         if(val==1){
@@ -44,6 +34,18 @@ function solveIt(){
             col[idx%size]=true;
         }
     });
+    //console.log(row,col);
 
+    Array.from(content).forEach((val,idx)=>{
+        if(board[idx]==1){
+            clr.set(val.classList[1].slice(-1),true);
+        }
+        else{
+            if(!clr.has(val.classList[1].slice(-1))){
+                clr.set(val.classList[1].slice(-1),false);
+            }
+        }
+    });
+    //console.log(clr);
     
 }
