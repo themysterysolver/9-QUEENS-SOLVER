@@ -27,11 +27,12 @@ function solveIt(){
     let row=Array(size).fill(false);
     let col=Array(size).fill(false);
     let clr=new Map();
-
+    const locked=[]
     Array.from(board).forEach((val,idx)=>{
         if(val==1){
             row[Math.floor(idx/size)]=true;
             col[idx%size]=true;
+            locked.push(idx);
         }
     });
     //console.log(row,col);
