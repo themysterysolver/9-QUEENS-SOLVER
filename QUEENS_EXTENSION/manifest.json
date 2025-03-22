@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "Queens solver",
+    "version": "1.0",
+    "description": "Solves LinkedIn's daily Queens game",
+    "permissions": ["scripting", "activeTab"],
+    "host_permissions": ["https://www.linkedin.com/*"],
+    "action": {
+      "default_popup": "popup.html"
+    }
+  }
+  
