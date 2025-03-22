@@ -47,5 +47,18 @@ function solveIt(){
         }
     });
     //console.log(clr);
-    
+    let adj=(idx)=>{
+        let r_idx=Math.floor(idx/size);
+        let c_idx=idx%size;
+
+        let directions=[[0,1],[1,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[0,0]];
+
+        return directions.some(([dx,dy])=>{
+            let nx=r_idx+dx;
+            let ny=c_idx+dy;
+            let nidx=nx*size+ny;
+
+            return nx>=0 && nx<size && ny>=0 && ny<size && board[nidx]===1;
+        });
+    };
 }
