@@ -62,4 +62,48 @@ function solveIt(){
             return nx>=0 && nx<size && ny>=0 && ny<size && board[nidx]===1;
         });
     };
+    function is_safe(idx,r,c,clrr){
+        if(row[r]||col[c]||clr.get(clrr)||adj(idx)){
+            return false;
+        }
+        return true;
+    }
+    let display=(board)=>{
+        for(let i=0;i<board.length;i+=size){
+            console.log(board.slice(i,i+size));
+        }
+    }
+    //display(board);
+    function backtrack(idx){
+        if(idx===board.length){
+            console.log("FOUND!");
+            display(board);
+            console.log(row,col,clr);
+            return true;
+        }
+
+        if(board[idx]===1 || locked.includes(idx)){
+            return backtrack(idx+1);
+        }
+        let r=Math.floor(idx/size);
+        let c=idx%size;
+        let clrr=grid_clr.get(idx);
+        if(is_safe(idx,r,c,clrr)){
+            board[idx]=1
+            row[r]=true;
+            col[c]=true;
+            clr.set(clrr,true);
+
+            if(backtrack(idx+1))return true;
+            
+            board[idx]=0
+            row[r]=false;
+            col[c]=false;
+            clr.set(clrr,false);
+        }
+        return backtrack(idx+1);
+    }
+    backtrack(0);
+    //display(board);
+    //console.log(board);
 }
