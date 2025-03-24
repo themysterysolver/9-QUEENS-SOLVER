@@ -24,15 +24,27 @@ let clr_data = {
    56: "3", 57: "4", 58: "4", 59: "6", 60: "6", 61: "7", 62: "5", 63: "0"
 };
 
+//CLR MAPPING
+```
+BLUE-2
+PEACH-1
+VIOLET-0
+RED-5
+GREY-7
+YELLOW-6
+WHITE-4
+GREEN-3
+```
+
 let grid_clr = new Map();
 for (const key in data) {
     grid_clr.set(parseInt(key), data[key]);
 }
 
 const clr = new Map([
-    [0, true],
+    [0, true],//INITIAL-VIOLET
     [1, false],
-    [2, true],
+    [2, true],//INITIAL-BLUE
     [3, false],
     [4, false],
     [5, false],
