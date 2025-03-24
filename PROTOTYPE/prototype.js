@@ -60,7 +60,7 @@ let adj=(idx)=>{
 };
 
 function is_safe(idx,r,c,clrr){
-    if(row[r]||col[c]||clr.get(clrr)||adj(idx)||locked.includes(idx)){
+    if(row[r]||col[c]||clr.get(clrr)||adj(idx)){
         return false;
     }
     return true;
@@ -68,6 +68,7 @@ function is_safe(idx,r,c,clrr){
 
 let display=(board)=>{
     console.log(board.map((val, idx) => (idx % size === 0 ? "\n" : "") + val).join(", "));
+    console.log("-----------------------");
 }
 
 //-------------HELPER-FUNCTIONS--------------------------------
@@ -80,20 +81,27 @@ console.log("BACKTRACKING");
 
 let result=[];
 function backtrack(r){
+    console.log(r);
     if(r===size){
         result=structuredClone(board);
         console.log("Hey!FOUND IT!");
         return
     }
+    if(row[r]){
+        backtrack(r+1);
+    }
     for(let c=0;c<size;c++){
         let idx=r*size+c;
         let color=grid_clr.get(idx);
-
+        //console.log("JUST IN",r,c);
         if(is_safe(idx,r,c,color)){
             board[idx]=1
             row[r]=true;
             col[c]=true;
             clr.set(color,true);
+
+            //console.log(c,row,col,idx,clr);
+            //display(board);
             backtrack(r+1);
             board[idx]=0
             row[r]=false;
