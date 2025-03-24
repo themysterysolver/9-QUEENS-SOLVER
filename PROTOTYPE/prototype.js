@@ -25,31 +25,84 @@ let clr_data = {
 };
 
 //CLR MAPPING
-```
-BLUE-2
-PEACH-1
-VIOLET-0
-RED-5
-GREY-7
-YELLOW-6
-WHITE-4
-GREEN-3
-```
 
 let grid_clr = new Map();
-for (const key in data) {
-    grid_clr.set(parseInt(key), data[key]);
+for (const key in clr_data) {
+    grid_clr.set(parseInt(key), clr_data[key]);
 }
 
 const clr = new Map([
-    [0, true],//INITIAL-VIOLET
-    [1, false],
-    [2, true],//INITIAL-BLUE
-    [3, false],
-    [4, false],
-    [5, false],
-    [6, false],
-    [7, false]
+    ["0", true],//INITIAL-VIOLET
+    ["1", false],
+    ["2", true],//INITIAL-BLUE
+    ["3", false],
+    ["4", false],
+    ["5", false],
+    ["6", false],
+    ["7", false]
 ]);
 
 //-------------------------BOARD STRUCTURE------------------------------------------------------
+
+let adj=(idx)=>{
+    let r_idx=Math.floor(idx/size);
+    let c_idx=idx%size;
+
+    let directions=[[0,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[1,-1],[-1,1]];
+
+    return directions.some(([dx,dy])=>{
+        let nx=r_idx+dx;
+        let ny=c_idx+dy;
+        let nidx=nx*size+ny;
+
+        return nx>=0 && nx<size && ny>=0 && ny<size && board[nidx]===1;
+    });
+};
+
+function is_safe(idx,r,c,clrr){
+    if(row[r]||col[c]||clr.get(clrr)||adj(idx)||locked.includes(idx)){
+        return false;
+    }
+    return true;
+}
+
+let display=(board)=>{
+    console.log(board.map((val, idx) => (idx % size === 0 ? "\n" : "") + val).join(", "));
+}
+
+//-------------HELPER-FUNCTIONS--------------------------------
+
+console.log("CHECKPOINT-1")
+display(board)
+
+//------------------BACKTRACKING------------------------------
+console.log("BACKTRACKING");
+
+let result=[];
+function backtrack(r){
+    if(r===size){
+        result=structuredClone(board);
+        console.log("Hey!FOUND IT!");
+        return
+    }
+    for(let c=0;c<size;c++){
+        let idx=r*size+c;
+        let color=grid_clr.get(idx);
+
+        if(is_safe(idx,r,c,color)){
+            board[idx]=1
+            row[r]=true;
+            col[c]=true;
+            clr.set(color,true);
+            backtrack(r+1);
+            board[idx]=0
+            row[r]=false;
+            col[c]=false;
+            clr.set(color,false);
+        }
+    }
+}
+backtrack(0);
+
+console.log("AFTER-BACKTRACKING");
+display(result);
