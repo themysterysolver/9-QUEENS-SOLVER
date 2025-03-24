@@ -8,22 +8,17 @@ document.getElementById("pop").addEventListener("click", async () => {
 });
 function solveIt(){
     let iframe_coll=document.getElementsByClassName("game-launch-page__iframe w-full")[0];
-    //console.log(iframe_coll);
     let iframe=iframe_coll.contentDocument||iframe_coll.contentWindow?.document;
-    const content=iframe.getElementsByClassName("queens-cell-with-border");
-    //console.log(content);
-    let board=Array.from(content,(el)=>el.getAttribute("aria-label").includes("Queen")?1:0);
-    //console.log(board);
 
+    const content=iframe.getElementsByClassName("queens-cell-with-border");
+    let board=Array.from(content,(el)=>el.getAttribute("aria-label").includes("Queen")?1:0);
     let size=Math.sqrt(board.length);
-    //console.log(size);
 
     let grid_clr=new Map();
     //let add_to_map=(idx,value)=> !grid_clr.has(value)?grid_clr.set(value,[idx]):grid_clr.get(value).push(idx);
     Array.from(content).forEach((val,idx)=>grid_clr.set(idx,val.classList[1].slice(-1)));
 
-    //console.log([...grid_clr]);
-
+    //FOR is_safe()
     let row=Array(size).fill(false);
     let col=Array(size).fill(false);
     let clr=new Map();
@@ -34,10 +29,8 @@ function solveIt(){
             row[Math.floor(idx/size)]=true;
             col[idx%size]=true;
             locked.push(idx);
-            clr.set(clr.has(val.classList[1].slice(-1)),true);
         }
     });
-    //console.log(row,col);
 
     Array.from(content).forEach((val,idx)=>{
         if(board[idx]==1){
@@ -49,7 +42,7 @@ function solveIt(){
             }
         }
     });
-    //console.log(clr);
+
     let adj=(idx)=>{
         let r_idx=Math.floor(idx/size);
         let c_idx=idx%size;
@@ -64,18 +57,19 @@ function solveIt(){
             return nx>=0 && nx<size && ny>=0 && ny<size && board[nidx]===1;
         });
     };
+
     function is_safe(idx,r,c,clrr){
         if(row[r]||col[c]||clr.get(clrr)||adj(idx)){
             return false;
         }
         return true;
     }
+
     let display=(board)=>{
         for(let i=0;i<board.length;i+=size){
             console.log(board.slice(i,i+size));
         }
     }
-    display(board);
 
     console.log("CHECKPOINT-1");
     console.log(row,col,clr);
@@ -103,6 +97,8 @@ function solveIt(){
         return false;
     }
     backtrack(0);
+
+    //PLACE IT IN BOARD EVENT DISPATCHER
     function placeQueenAtIndex(index){
         let tile = iframe.querySelector(`[data-cell-idx="${index}"]`);
     
@@ -125,6 +121,8 @@ function solveIt(){
             console.log("Tile not found!");
         }
     }
+
+    //ACTUAL POPULATE FUNCTION
     let populate=(()=>{
         for(let i=0;i<board.length;i++){
             if(board[i]===1 && !locked.includes(i)){
