@@ -43,6 +43,7 @@ function solveIt(){
         }
     });
 
+    
     let adj=(idx)=>{
         let r_idx=Math.floor(idx/size);
         let c_idx=idx%size;
@@ -66,38 +67,54 @@ function solveIt(){
     }
 
     let display=(board)=>{
-        for(let i=0;i<board.length;i+=size){
-            console.log(board.slice(i,i+size));
-        }
+        console.log(board.map((val, idx) => (idx % size === 0 ? "\n" : "") + val).join(", "));
+        console.log("-----------------------");
     }
 
-    console.log("CHECKPOINT-1");
-    console.log(row,col,clr);
-    display(board);
+    //-------------HELPER-FUNCTIONS--------------------------------
 
+    console.log("CHECKPOINT-1")
+    display(board)
+
+    //------------------BACKTRACKING------------------------------
+    console.log("BACKTRACKING");
+
+    let result=[];
     function backtrack(r){
-        if(r===board.length){
-            return true;
+        console.log(r);
+        if(r===size){
+            result=structuredClone(board);
+            console.log("Hey!FOUND IT!");
+            return
+        }
+        if(row[r]){
+            backtrack(r+1);
         }
         for(let c=0;c<size;c++){
-            let nidx=r*size+c;
-            let clrr=grid_clr.get(nidx);
-            if(is_safe(nidx,r,c,clrr)){
-                board[nidx]=1;
+            let idx=r*size+c;
+            let color=grid_clr.get(idx);
+            //console.log("JUST IN",r,c);
+            if(is_safe(idx,r,c,color)){
+                board[idx]=1
                 row[r]=true;
                 col[c]=true;
-                clr.set(clrr, true);
-                if(backtrack(r+1))return true;
-                board[nidx]=0;
+                clr.set(color,true);
+
+                //console.log(c,row,col,idx,clr);
+                //display(board);
+                backtrack(r+1);
+                board[idx]=0
                 row[r]=false;
                 col[c]=false;
-                clr.set(clrr,false);
+                clr.set(color,false);
             }
         }
-        return false;
     }
     backtrack(0);
 
+    console.log("AFTER-BACKTRACKING");
+    display(result);
+    
     //PLACE IT IN BOARD EVENT DISPATCHER
     function placeQueenAtIndex(index){
         let tile = iframe.querySelector(`[data-cell-idx="${index}"]`);
@@ -124,8 +141,8 @@ function solveIt(){
 
     //ACTUAL POPULATE FUNCTION
     let populate=(()=>{
-        for(let i=0;i<board.length;i++){
-            if(board[i]===1 && !locked.includes(i)){
+        for(let i=0;i<result.length;i++){
+            if(result[i]===1 && !locked.includes(i)){
                 placeQueenAtIndex(i);
             }
         }
