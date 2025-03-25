@@ -1,5 +1,6 @@
 ## 🎯QUEEN'S SOLVER LINKEDIN
 - This is a *daily game* in linkedin I recently got playing.
+- This chrome extension solves the `queen's game`.
 - So what does this repo do?
   - I have created `2` **extensions**,
     - The one you can use while you are not signed in `QUEENS_EXTENSION`🏁
