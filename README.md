@@ -19,7 +19,7 @@ https://github.com/user-attachments/assets/5c4442c3-610b-418c-86cc-319a50f3196c
 - Then on *top-right* enable ***developer mode***.
 - Then on *top-left* click ***Load unpacked*** browse the path where have downloaded my folder.
 - Click it.
-- Now use it as per dem.
+- Now use it as per demo.
 ## 💡WHY THIS REPO?
 - I love shortcuts and smart work.🕺
 - I wanted code *backtracking*,I am crazy on DSA.😁
@@ -27,4 +27,19 @@ https://github.com/user-attachments/assets/5c4442c3-610b-418c-86cc-319a50f3196c
 - To learn how ***extension works!!*** 🏗️
 - How to scrape and search in a web.🔍
 <img src="https://github.com/user-attachments/assets/d47d3f17-b225-4847-8938-01471ab64d03" width="1000">
+
+## REPO STRCUTURE
+```
+├── PROTOTYPE
+│   ├── TEST CASES
+│   └── prototype.js
+├── QUEENS_EXTENSION
+├── QUEENS_EXTENSION_V2
+│   ├── manifest.json
+│   ├── popup.html
+│   └── queens.js
+└── the_making.md
+```
+- `PROTOTYPE/prototype.js` has the backtracking algo
+- `PROTOTYPE/TEST CASES` contain the test-cases which i got for validation.
 
